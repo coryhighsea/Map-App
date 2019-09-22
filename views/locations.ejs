@@ -1,0 +1,9 @@
+<h1>Locations Page</h1>
+<a href="/locations/new">Add a new location</a>
+<% locations.forEach(function(location){%>
+<h4><%= location.name %> </h4>
+<h4><%= location.lat %> </h4>
+<h4><%= location.long %> </h4>
+
+
+    <%});%>

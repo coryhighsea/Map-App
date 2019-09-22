@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Map App</title>
+
+    <title>Picture Map App</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+    integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+    crossorigin="">
+
+    </script>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        html, body, #map {
+            height: 100%;
+            width: 100vw;
+        }
+        
+        </style>
+</head>
+<body>
+    <h1>This is Map page</h1>
+<a href="/locations/new">Add a new location</a>
+<!-- <% locations.forEach(function(location){%>
+    <h4><%= location.name %> </h4>
+    <h4><%= location.lat %> </h4>
+    <h4><%= location.long %> </h4>
+    
+    
+        <%});%> -->
+<br>
+    <div id="map" class="leaflet-container leaflet-touch leaflet-fade-anim leaflet-grab
+	leaftlet-touch-drag leaflet-touch-zoom">
+
+    </div>
+
+  
+
+    <script>
+
+// var littleton = L.marker([39.61, -105.02]).bindPopup('This is Littleton, CO.'),
+// 	denver    = L.marker([39.74, -104.99]).bindPopup('This is Denver, CO.'),
+// 	aurora    = L.marker([39.73, -104.8]).bindPopup('This is Aurora, CO.'),
+//     golden    = L.marker([39.77, -105.23]).bindPopup('This is Golden, CO.'),
+//     amsterdam = L.marker([52.3699, 4.8982]).bindPopup('<b>Amsterdam</b><br><img width="200px" src="images/amsterdam1.jpg">'),
+//     pinchercreek = L.marker([49.31, -114.41]).bindPopup('<b>Castle Mountain</b><br><img width="200px" src="https://lh3.googleusercontent.com/nYt8bv_sNCc2zVQ3cW_7AN1N_CXfa46uF_CKpa2XnH7PXvu6IUEfh6cJVuDP5nl-UJaOaLbRu7MTDT2k5T2UsUDsHoyt0khy5o6T-H4hntdoeXzhomdxPZ3LN5MlD5THvASzQgAiEK_S7RPVj9joIkMNkaHcgoHXHxusoaWpeUvUOBPfPZs60iuHAkK-fAuJOLpvdjq-7Vau3LnW-_Yjdippzjew_hkPu2YLhV02xx1Tx0guSPXAsG90FVNolel4H3L-T0s1TYSjfTvyIpx60C7QSe3QcJypsODO012VR5npjyaMyasfnm7WTbD_vv1xg976GoKRJtAVZimqr7FK6BEddQSTrCheJLv8zFiKcCRSBC_SSv3LIiaicP7Kknvi0srNRKCl6x8eGz3btVObAPxknW0W3pqqlpzrNLmEFcX5MUA5Xg3YNPBOEUovirf5Xhl969kiqtPGzVr442TP9SeJvxPDDAmucGaD7tQeS3SeaZG5AyXlzDp2U-wodxDT3RiiFFuUAOvZlNm0qjWeAnu7djZ4MInxfLsH2TJ0QMqrcSvyhVHC28gKKrCIrHRm4usPE-z2tW_LFdiheACgpQVVcVk-srMGcx59KcSYtd99DtogS3di_drh1AS05p8XPfqk8lO6j_nHKEbFkrK6hnKQCY11EEFHO7bQUVvQrFbz2fMS-UHxnY5P=w493-h657-no">');
+
+    // locations.forEach(function(location){
+    //     var city = L.marker([location.lat, location.long]).bindPopup('This is' + location.name);
+
+    // });
+	// var cities = L.layerGroup([city]);
+
+
+	// var cities = L.layerGroup([littleton, denver, aurora, golden, amsterdam, pinchercreek]);
+    
+
+    var mapboxAttribution = 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
+var mapboxUrl =  'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiZHRjMiIsImEiOiJjajM0bGhtdWMwMXMyMndvOTNhMTV5bGlwIn0.P982OmG7OY8ETeL971l1Ww';
+
+
+
+var grayscale = L.tileLayer(mapboxUrl, {id: 'mapbox.light', attribution: mapboxAttribution}),
+	satellite = L.tileLayer(mapboxUrl, {id: 'mapbox.satellite', attribution: mapboxAttribution}),
+
+	streets   = L.tileLayer(mapboxUrl, {id: 'mapbox.streets', attribution: mapboxAttribution});
+
+var map = L.map('map', {
+	center: [50.9, 6.9],
+	zoom: 5,
+	layers: [streets]
+});
+
+<%locations.forEach(function(location){%>
+        var marker = L.marker([<%=location.lat%>, <%=location.long%>]).addTo(map);
+        marker.bindPopup('<%=location.name%>'); 
+    <%});%>
+
+
+// <%locations.forEach(function(location){%>
+//          marker.bindPopup('Cologne')
+            
+//     <%});%>
+
+// L.marker([50.9, 6.9]).addTo(map).bindPopup('Cologne');
+// L.marker([location.lat, location.long]).addTo(map)
+
+
+var baseMaps = {
+	"Grayscale": grayscale,
+	"Satellite": satellite,
+	"Streets": streets
+};
+
+// var overlayMaps = {
+//     "Cities": cities
+// };
+
+L.control.layers(baseMaps).addTo(map);
+
+var baseMaps = {
+	"<span style='color: gray'>Grayscale</span>": grayscale,
+	"Streets": streets,
+	"Satellite": satellite
+};
+    
+    </script>
+
+
+</body>
+</html>
