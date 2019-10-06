@@ -11,15 +11,23 @@
             height: 100%;
             width: 100wv;
         }
+        #title{
+            color: rgb(143, 51, 51);
+            background-color: rgb(45, 133, 133);
+            text-align: center;
+        }
+        body{
+            background-color: rgb(76, 161, 76);
+        }
         
         </style>
 </head>
 <body>
-    <div class="jumbotron container">
-        <h1>This is Map page</h1>
+    <div class="jumbotron container" id="title">
+        <h1><strong>Your Locations</strong></h1>
     </div>
 
-<a href="/locations/new">Add a new location</a>
+<button><a href="/locations/new">Add a new location</a></button>
 <!-- <% locations.forEach(function(location){%>
     <h4><%= location.name %> </h4>
     <h4><%= location.lat %> </h4>
@@ -72,7 +80,7 @@ var map = L.map('map', {
 
 <%locations.forEach(function(location){%>
         var marker = L.marker([<%=location.lat%>, <%=location.long%>]).addTo(map);
-        marker.bindPopup('<%=location.name%>'); 
+        marker.bindPopup('<%=location.name%><br><img width="300px" src="<%=location.image%>">'); 
     <%});%>
 
 

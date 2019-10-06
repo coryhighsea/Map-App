@@ -1,11 +1,16 @@
 var express = require('express'),
     app = express(),
     bodyParser = require('body-parser'),
-    mongoose = require('mongoose'),
-    router = express.Router(),
-    path = require('path')
+    mongoose = require('mongoose')
+  
 
-mongoose.connect("mongodb://localhost/map_app", {useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb://localhost/map_app", {useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://cory:password27@cluster0-afb7x.mongodb.net/cluster0?retryWrites=true&w=majority", 
+{
+    useNewUrlParser: true,
+    useUnifiedTopology: true 
+});
+
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.set('view engine', 'ejs')
@@ -13,7 +18,8 @@ app.set('view engine', 'ejs')
 var locationSchema = new mongoose.Schema({
     name: String,
     lat: Number,
-    long: Number 
+    long: Number,
+    image: String
 });
 
 var Location = mongoose.model('Location', locationSchema);
@@ -51,7 +57,8 @@ app.post('/map', function(req, res){
     var name = req.body.name;
     var lat = req.body.lat;
     var long = req.body.long;
-    var newLocation = {name: name, lat: lat, long: long}
+    var image = req.body.image;
+    var newLocation = {name: name, lat: lat, long: long, image: image}
     // campgrounds.push(newCampground);
     Location.create(newLocation, function(err, newlyCreated){
         if(err){
@@ -69,9 +76,9 @@ app.get('/locations/new', function(req, res){
     res.render('new.ejs')
     });
 
-    
+ const PORT = process.env.PORT || 3000;   
 
-app.listen(3000, function(){
+app.listen(PORT, function(){
     console.log('The MapApp server has started');
 })
 
